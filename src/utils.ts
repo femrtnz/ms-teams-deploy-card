@@ -96,10 +96,14 @@ export async function getWorkflowRunStatus() {
     run_id: parseInt(runInfo.runId || "1"),
   });
 
+  info("-> status: " + JSON.stringify(workflowJobs.data))
+
   const job = workflowJobs.data.jobs.find(
     (job: Octokit.ActionsListJobsForWorkflowRunResponseJobsItem) =>
-      job.name === process.env.GITHUB_JOB || job.name === process.env.GITHUB_JOB_CUSTOM_NAME
+      job.name === process.env.GITHUB_JOB
   );
+
+  info("-> job: " + JSON.stringify(job))
 
   let lastStep;
   const stoppedStep = job?.steps.find(
